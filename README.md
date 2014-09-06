@@ -16,37 +16,33 @@ services.
 ### Deploy PTero
 1. Install tool requirements with `pip install -r requirements.txt`.
 2. Setup OpenStack credentials (see below).
-3. Configure staging and production environments in `environments.yaml`
+3. Configure staging and production stacks in `config.yaml`
    (see below).
-4. Build and uploadservice images with
-   `fab images.build:<branch_or_tag> images.upload:<branch_or_tag>`.
-5. Deploy a staging environment with
+4. Deploy a staging environment with
    `fab stack.create:env=staging,tag=<branch_or_tag>`.
-6. Test staging deployment with `fab tests.fast:staging`.
-7. Destroy staging environment with `fab stack.delete:staging`.
-8. Deploy production environment with
+5. Test staging deployment with `fab tests.fast:staging`.
+6. Destroy staging environment with `fab stack.delete:staging`.
+7. Deploy production environment with
    `fab stack.create:env=production,tag=<branch_or_tag>`.
-9. Test production deployment with `fab tests.fast:production`.
+8. Test production deployment with `fab tests.fast:production`.
 
 ### Update PTero
-1. Build and upload service images with
-   `fab images.build:<new_tag> images.upload:<new_tag>`.
-2. Deploy a staging environment with
+1. Deploy a staging environment with
    `fab stack.create:env=staging,tag=<old_tag>`.
-3. Test staging environment with `fab tests.fast:env=staging,tag=<old_tag>`.
-4. Initiate long-running test with `fab tests.slow:env=staging,tag=<old_tag> &`.
-5. Apply update to staging environment with
+2. Test staging environment with `fab tests.fast:env=staging,tag=<old_tag>`.
+3. Initiate long-running test with `fab tests.slow:env=staging,tag=<old_tag> &`.
+4. Apply update to staging environment with
    `fab update:env=staging,tag=<new_tag>`.
-6. Test staging environment with `fab tests.fast:env=staging,tag=<new_tag>`.
-7. Wait for long-running test to succeed.
-8. Destroy staging environment with `fab stack.delete:staging`.
-9. Initiate long-running test with
+5. Test staging environment with `fab tests.fast:env=staging,tag=<new_tag>`.
+6. Wait for long-running test to succeed.
+7. Destroy staging environment with `fab stack.delete:staging`.
+8. Initiate long-running test with
    `fab tests.slow:env=production,tag=<new_tag> &`.
-10. Apply update to production environment with
+9. Apply update to production environment with
    `fab stack.update:env=production,tag=<new_tag>`.
-11. Test production environment with
+10. Test production environment with
     `fab tests.fast:env=production,tag=<new_tag>`.
-12. Wait for long-running test to succeed.
+11. Wait for long-running test to succeed.
 
 ### Rollback PTero
 1. Apply rollback to production environment with
@@ -72,17 +68,26 @@ environment.  That typically means setting the following environment variables:
     OS_AUTH_URL=http://openstack.example.com/v3
 
 
-## Configuring environments
-Heat template parameters used for various environments, including common
-parameters are contained in `environments.yaml`.  For example:
+## Configuration
+Heat template parameters used for various stacks, including common
+parameters are contained in `config.yaml`.  For example:
 
-    common:
-        public_net_id: some-uuid
+    images:
+        build:
+            build_machine_image: some-vm-image
+            base_image_urls:
+                default: http://some.place/with/some/image
+                shell-command:
+                    worker: http://another.place/with/a/different/image
 
-    staging:
-        stack_name: ptero-staging
-        default_shell_command_worker_instances: 1
+    stacks:
+        common:
+            public_net_id: some-uuid
 
-    production:
-        stack_name: ptero-production
-        default_shell_command_worker_instances: 4
+        staging:
+            stack_name: ptero-staging
+            default_shell_command_worker_instances: 1
+
+        production:
+            stack_name: ptero-production
+            default_shell_command_worker_instances: 4
