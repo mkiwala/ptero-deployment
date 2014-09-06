@@ -1,50 +1,24 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
-$bootstrap_script = <<EOS
-sudo apt-get update
-sudo apt-get install -qqy git
-
-git clone https://github.com/openstack-dev/devstack.git
-cd devstack
-
-cat > local.conf <<EOF
-[[local|localrc]]
-HOST_IP=192.168.50.50
-
-ADMIN_PASSWORD=password
-DATABASE_PASSWORD=password
-RABBIT_PASSWORD=password
-SERVICE_PASSWORD=password
-SERVICE_TOKEN=tokentoken
-
-disable_service n-net
-enable_service q-svc
-enable_service q-agt
-enable_service q-dhcp
-enable_service q-l3
-enable_service q-meta
-
-enable_service tr-api
-enable_service tr-tmgr
-enable_service tr-cond
-EOF
-
-./stack.sh
-EOS
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "v14.04"
+  config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
+  config.vm.network "private_network", ip: "192.168.33.10"
 
-  config.vm.network :private_network, ip: "192.168.50.50"
-
-  config.vm.provider :virtualbox do |vb|
-    vb.memory = 4096
+  config.vm.provider "virtualbox" do |vb|
+    # Use VBoxManage to customize the VM. For example to change memory:
+    vb.customize ["modifyvm", :id, "--memory", "4096"]
+    vb.customize ["modifyvm", :id, "--cpus",   "4"]
     vb.customize ["modifyvm", :id, "--ioapic", "on"]
-    vb.customize ["modifyvm", :id, "--cpus", "4"]
+
   end
 
-  config.vm.provision :shell, :privileged => false, :inline => $bootstrap_script
+  config.vm.provision :puppet do |puppet|
+    puppet.manifests_path = 'puppet/manifests'
+    puppet.manifest_file = 'site.pp'
+    puppet.module_path = 'puppet/modules'
+  end
 end
