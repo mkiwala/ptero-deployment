@@ -19,52 +19,52 @@ services.
 3. Configure staging and production stacks in `config.yaml`
    (see below).
 4. Deploy and test a staging environment with
-   `fab deploy:env=staging,tag=<branch_or_tag>`.
+   `fab deploy:name=staging,tag=<branch_or_tag>`.
 5. Destroy `<environment>` environment with `fab stack.delete:<environment>`.
-6. Deploy and test a staging environment with
-   `fab deploy:env=staging,tag=<branch_or_tag>`.
+6. Deploy and test a production environment with
+   `fab deploy:name=production,tag=<branch_or_tag>`.
 
-`fab deploy:env=<environment>,tag=<branch_or_tag>` when no such stack is
+`fab deploy:name=<environment>,tag=<branch_or_tag>` when no such stack is
 deployed is equivalent to:
 
 1. Build and upload new images if needed with
    `fab images.build_and_upload:tag=<new_tag>`
 2. Deploy a `<environment>` environment with
-   `fab stack.create:env=<environment>,tag=<branch_or_tag>`.
+   `fab stack.create:name=<environment>,tag=<branch_or_tag>`.
 3. Test `<environment>` deployment with `fab tests.fast:<environment>`.
 
 ### Update PTero
 1. Deploy and test a staging environment with
-   `fab deploy:env=staging,tag=<old_tag>`.
+   `fab deploy:name=staging,tag=<old_tag>`.
 2. Apply update to staging environment and test the update with
-   `fab deploy:env=staging,tag=<old_tag>`.
+   `fab deploy:name=staging,tag=<new_tag>`.
 3. Destroy staging environment with `fab stack.delete:staging`.
 4. Apply update to staging environment and test the update with
-   `fab deploy:env=production,tag=<new_tag>`.
+   `fab deploy:name=production,tag=<new_tag>`.
 
-`fab deploy:env=<environment>,tag=<new_tag>` when a stack is deployed is
+`fab deploy:name=<environment>,tag=<new_tag>` when a stack is deployed is
 equivalent to:
 
 1. Build and upload new images if needed with
    `fab images.build_and_upload:tag=<new_tag>`
 2. Initiate long-running test with
-   `fab tests.slow:env=<environment>,tag=<old_tag> &`.
+   `fab tests.slow:name=<environment>,tag=<old_tag> &`.
 3. Apply update to `<environment>` environment with
-   `fab stack.update:env=<environment>,tag=<new_tag>`.
+   `fab stack.update:name=<environment>,tag=<new_tag>`.
 4. Test `<environment>` environment with
-    `fab tests.fast:env=<environment>,tag=<new_tag>`.
+    `fab tests.fast:name=<environment>,tag=<new_tag>`.
 5. Wait for long-running test to succeed.
 
 ### Rollback PTero
 1. Apply the update to the stack with
-   `fab rollback:env=production,tag=<old_tag>`
+   `fab rollback:name=production`
 
-`fab rollback:env=production,tag=<old_tag>` is equivalent to:
+`fab rollback:name=production` is equivalent to:
 
 1. Apply rollback to production environment with
-   `fab stack.update:env=production,tag=<old_tag>`.
+   `fab stack.update:name=production,tag=<old_tag>`.
 2. Test production environment with
-   `fab tests.fast:env=production,tag=<old_tag>`.
+   `fab tests.fast:name=production,tag=<old_tag>`.
 
 ### Remove Old Images
 Delete old service images using `fab images.delete:<ancient_tag>`.
