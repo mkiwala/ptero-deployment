@@ -18,33 +18,49 @@ services.
 2. Setup OpenStack credentials (see below).
 3. Configure staging and production stacks in `config.yaml`
    (see below).
-4. Deploy a staging environment with
-   `fab stack.create:env=staging,tag=<branch_or_tag>`.
-5. Test staging deployment with `fab tests.fast:staging`.
-6. Destroy staging environment with `fab stack.delete:staging`.
-7. Deploy production environment with
-   `fab stack.create:env=production,tag=<branch_or_tag>`.
-8. Test production deployment with `fab tests.fast:production`.
+4. Deploy and test a staging environment with
+   `fab deploy:env=staging,tag=<branch_or_tag>`.
+5. Destroy `<environment>` environment with `fab stack.delete:<environment>`.
+6. Deploy and test a staging environment with
+   `fab deploy:env=staging,tag=<branch_or_tag>`.
+
+`fab deploy:env=<environment>,tag=<branch_or_tag>` when no such stack is
+deployed is equivalent to:
+
+1. Build and upload new images if needed with
+   `fab images.build_and_upload:tag=<new_tag>`
+2. Deploy a `<environment>` environment with
+   `fab stack.create:env=<environment>,tag=<branch_or_tag>`.
+3. Test `<environment>` deployment with `fab tests.fast:<environment>`.
 
 ### Update PTero
-1. Deploy a staging environment with
-   `fab stack.create:env=staging,tag=<old_tag>`.
-2. Test staging environment with `fab tests.fast:env=staging,tag=<old_tag>`.
-3. Initiate long-running test with `fab tests.slow:env=staging,tag=<old_tag> &`.
-4. Apply update to staging environment with
-   `fab update:env=staging,tag=<new_tag>`.
-5. Test staging environment with `fab tests.fast:env=staging,tag=<new_tag>`.
-6. Wait for long-running test to succeed.
-7. Destroy staging environment with `fab stack.delete:staging`.
-8. Initiate long-running test with
-   `fab tests.slow:env=production,tag=<new_tag> &`.
-9. Apply update to production environment with
-   `fab stack.update:env=production,tag=<new_tag>`.
-10. Test production environment with
-    `fab tests.fast:env=production,tag=<new_tag>`.
-11. Wait for long-running test to succeed.
+1. Deploy and test a staging environment with
+   `fab deploy:env=staging,tag=<old_tag>`.
+2. Apply update to staging environment and test the update with
+   `fab deploy:env=staging,tag=<old_tag>`.
+3. Destroy staging environment with `fab stack.delete:staging`.
+4. Apply update to staging environment and test the update with
+   `fab deploy:env=production,tag=<new_tag>`.
+
+`fab deploy:env=<environment>,tag=<new_tag>` when a stack is deployed is
+equivalent to:
+
+1. Build and upload new images if needed with
+   `fab images.build_and_upload:tag=<new_tag>`
+2. Initiate long-running test with
+   `fab tests.slow:env=<environment>,tag=<old_tag> &`.
+3. Apply update to `<environment>` environment with
+   `fab stack.update:env=<environment>,tag=<new_tag>`.
+4. Test `<environment>` environment with
+    `fab tests.fast:env=<environment>,tag=<new_tag>`.
+5. Wait for long-running test to succeed.
 
 ### Rollback PTero
+1. Apply the update to the stack with
+   `fab rollback:env=production,tag=<old_tag>`
+
+`fab rollback:env=production,tag=<old_tag>` is equivalent to:
+
 1. Apply rollback to production environment with
    `fab stack.update:env=production,tag=<old_tag>`.
 2. Test production environment with
@@ -54,7 +70,7 @@ services.
 Delete old service images using `fab images.delete:<ancient_tag>`.
 
 ### Remove PTero
-Destroy staging environment with `fab stack.delete:production`.
+Destroy the production environment with `fab stack.delete:production`.
 
 
 ## OpenStack Credentials
