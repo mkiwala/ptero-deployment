@@ -1,13 +1,13 @@
 class devstack {
-    exec { 'apt-get update':
+    exec { 'apt-update':
         command => '/usr/bin/apt-get update'; }
 
-    exec { 'apt-get install git':
-        require => Exec['apt-get update'],
-        command => '/usr/bin/apt-get -y install git'; }
+    Exec["apt-update"] -> Package <| |>
+
+    package { 'git': ensure => present }
 
     exec { 'git clone devstack':
-        require => Exec['apt-get install git'],
+        require => Package['git'],
         user => 'vagrant', group => 'vagrant',
         cwd     => '/home/vagrant',
         creates => '/home/vagrant/devstack',
