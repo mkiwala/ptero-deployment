@@ -74,13 +74,12 @@ Destroy the production environment with `fab stack.delete:production`.
 
 
 ## OpenStack Credentials
-Credentials needed by the OpenStack CLI tools should be specified in
-environment.  That typically means setting the following environment variables:
+Credentials needed by the OpenStack client libraries should be specified in
+environment:
 
     OS_USERNAME=auser
     OS_PASSWORD=apass
     OS_PROJECT_NAME=aproject
-    OS_TENANT_NAME=aproject
     OS_AUTH_URL=http://openstack.example.com/v3
 
 
