@@ -17,6 +17,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provision :puppet do |puppet|
+    puppet.facter = {
+      "fixedrange" => ENV['FIXED_RANGE'] || "172.16.0.0/13",
+      "fixednetworksize" => ENV['FIXED_NETWORK_SIZE'] || "256",
+      "floatingrange" => ENV['FLOATING_RANGE'] || "172.24.0.0/13",
+      "networkgateway" => ENV['NETWORK_GATEWAY'] || "172.16.0.1",
+    }
+
     puppet.manifests_path = 'puppet/manifests'
     puppet.manifest_file = 'site.pp'
     puppet.module_path = 'puppet/modules'
