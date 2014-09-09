@@ -24,6 +24,6 @@ class devstack {
         user => 'vagrant', group => 'vagrant',
         cwd     => '/home/vagrant/devstack',
         timeout => 0,
-        environment => ["HOME=/home/vagrant"],
+        environment => ["HOME=/home/vagrant", "FIXED_RANGE=$::fixedrange"],
         command => '/home/vagrant/devstack/stack.sh';}
 }
