@@ -9,21 +9,13 @@ package {'git':
   ensure => present,
 }
 
-class {'python':
-  dev        => true,
-  gunicorn   => true,
-  version    => 'system',
-  virtualenv => true,
-}
-
 class {'ptero': }
 
+# --- Setup database ---
 package {'python-psycopg2':
   ensure => present,
 }
 
-
-# --- Setup database ---
 class {'postgresql::server': }
 
 postgresql::server::db {'ptero_auth':
@@ -32,65 +24,23 @@ postgresql::server::db {'ptero_auth':
 }
 
 
-# -- Install code --
-vcsrepo {'/var/www/auth':
-  ensure   => present,
-  provider => git,
-  source   => hiera('auth-repo'),
-  revision => hiera('auth-tag'),
-  owner    => 'www-data',
-  group    => 'www-data',
-  require  => Package['git'],
-  notify   => Service['gunicorn'],
-}
+# --- Setup Nginx ---
+class {'nginx': }
 
-python::virtualenv {'/var/www/auth/virtualenv':
-  requirements => '/var/www/auth/requirements.txt',
-  owner        => 'www-data',
-  group        => 'www-data',
-  systempkgs   => true,
-  require      => Vcsrepo['/var/www/auth'],
-  subscribe    => Vcsrepo['/var/www/auth'],
-  notify       => Service['gunicorn'],
-}
 
-file {'/var/www/auth/app.py':
-  owner   => 'www-data',
-  group   => 'www-data',
-  mode    => '644',
-  source  => 'puppet:///modules/ptero/auth/app.py',
-  require => Vcsrepo['/var/www/auth'],
-}
-
-# --- Setup gunicorn ---
+# --- Auth ---
 $sig_key = hiera('auth-signature-key')
 $auth_pass = hiera('auth-postgres-password')
-python::gunicorn {'auth':
-  dir         => '/var/www/auth',
-  bind        => 'unix:/tmp/auth.socket',
-  virtualenv  => '/var/www/auth/virtualenv',
+ptero::web{'auth':
+  code_dir    => '/var/www/auth',
+  source      => hiera('auth-repo'),
+  revision    => hiera('auth-tag'),
+  listen_port => 80,
+  app         => 'puppet:///modules/ptero/auth/app.py',
   environment => {
     'SIGNATURE_KEY' => "$sig_key",
     'DATABASE_URL'  => "postgres://ptero_auth:$auth_pass@localhost/ptero_auth",
     'AUTH_URL'      => 'http://192.168.10.10',
   },
-  template => 'ptero/gunicorn.erb',
-  require  => [
-    Python::Virtualenv['/var/www/auth/virtualenv'],
-    File['/var/www/auth/app.py'],
-  ],
-}
-
-
-# --- Setup Nginx ---
-class {'nginx': }
-
-nginx::resource::upstream {'auth':
-  members => [
-    'unix:/tmp/auth.socket',
-  ],
-}
-
-nginx::resource::vhost {'auth':
-  proxy       => 'http://auth',
+  require     => Postgresql::Server::Db['ptero_auth'],
 }
