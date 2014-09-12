@@ -1,0 +1,26 @@
+CONFIG = {
+  'mode': 'wsgi',
+  'environment': {
+<% if @environment -%>
+    <% @environment.each do |name, val| -%>
+    '<%= name %>': '<%= val %>',
+    <% end -%>
+<% end -%>
+    'PYTHONPATH': '.:<%= @virtualenv %>'
+  },
+  'working_dir': '<%= @dir %>',
+  'user': '<%= @owner %>',
+  'group': '<%= @group %>',
+  'python': '<%= @virtualenv %>/bin/python',
+  'args': (
+<% if @virtualenv and !@bind -%>
+    '--bind=unix:<%= @virtualenv %>/<%= @name %>.socket',
+<% else -%>
+    '--bind=<%= @bind %>',
+<% end -%>
+    '--workers=<%= @processorcount.to_i*2 %>',
+    '--timeout=30',
+    'app:app',
+  ),
+}
+
