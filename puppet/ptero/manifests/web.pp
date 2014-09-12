@@ -41,14 +41,16 @@ define ptero::web (
   }
 
 # --- Setup gunicorn ---
-  $sig_key = hiera('auth-signature-key')
-  $auth_pass = hiera('auth-postgres-password')
-  python::gunicorn {'auth':
+  python::gunicorn {$title:
     dir         => $code_dir,
     bind        => "unix:$code_dir/socket",
     virtualenv  => "$code_dir/virtualenv",
     environment => $environment,
     template    => 'ptero/gunicorn.erb',
+    subscribe   => [
+      Vcsrepo[$code_dir],
+      Python::Virtualenv["$code_dir/virtualenv"],
+    ],
     require     => [
       Python::Virtualenv["$code_dir/virtualenv"],
       File["$code_dir/app.py"],  # XXX HMM
