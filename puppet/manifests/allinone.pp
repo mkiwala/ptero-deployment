@@ -28,7 +28,7 @@ class {'postgresql::server': }
 
 postgresql::server::db {'ptero_auth':
   user     => 'ptero_auth',
-  password => hiera('allinone::auth-postgres-password'),
+  password => hiera('auth-postgres-password'),
 }
 
 
@@ -36,8 +36,8 @@ postgresql::server::db {'ptero_auth':
 vcsrepo {'/var/www/auth':
   ensure   => present,
   provider => git,
-  source   => hiera('allinone::auth-repo'),
-  revision => hiera('allinone::auth-tag'),
+  source   => hiera('auth-repo'),
+  revision => hiera('auth-tag'),
   owner    => 'www-data',
   group    => 'www-data',
   require  => Package['git'],
@@ -63,8 +63,8 @@ file {'/var/www/auth/app.py':
 }
 
 # --- Setup gunicorn ---
-$sig_key = hiera('allinone::auth-signature-key')
-$auth_pass = hiera('allinone::auth-postgres-password')
+$sig_key = hiera('auth-signature-key')
+$auth_pass = hiera('auth-postgres-password')
 python::gunicorn {'auth':
   dir         => '/var/www/auth',
   bind        => 'unix:/tmp/auth.socket',
