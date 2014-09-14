@@ -12,10 +12,6 @@ class ptero::shell_command::web() {
     revision    => hiera('sc-tag'),
     listen_port => hiera('sc-port'),
     app         => 'puppet:///modules/ptero/shell-command/app.py',
-    require     => [
-      Class['rabbitmq'],
-      Redis::Instance['sc-redis'],
-    ],
     environment => {
       'CELERY_BROKER_URL'     =>
         "amqp://$sc_rabbit_user:$sc_rabbit_password@localhost/$sc_rabbit_vhost",

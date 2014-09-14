@@ -45,5 +45,15 @@ class {'ptero::auth::web':
 # --- Shell command ---
 class {'ptero::shell_command::rabbitmq': }
 class {'ptero::shell_command::redis': }
-class {'ptero::shell_command::web': }
-class {'ptero::shell_command::celery': }
+class {'ptero::shell_command::web':
+  require => [
+    Class['ptero::shell_command::rabbitmq'],
+    Class['ptero::shell_command::redis'],
+  ],
+}
+class {'ptero::shell_command::celery':
+  require => [
+    Class['ptero::shell_command::rabbitmq'],
+    Class['ptero::shell_command::redis'],
+  ],
+}
