@@ -10,6 +10,5 @@ class ptero::auth::web() {
       'DATABASE_URL'  => $ptero::params::auth::database_url,
       'AUTH_URL'      => $ptero::params::auth::url,
     },
-    require     => Postgresql::Server::Db['ptero_auth'],
   }
 }

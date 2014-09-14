@@ -37,7 +37,9 @@ package {'python-librabbitmq':
 
 
 # --- Auth ---
-class {'ptero::auth::web': }
+class {'ptero::auth::web':
+  require => Postgresql::Server::Db['ptero_auth'],
+}
 
 
 # --- Shell command ---
