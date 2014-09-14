@@ -24,6 +24,13 @@ postgresql::server::db {'ptero_auth':
 class {'nginx': }
 
 
+# --- Setup RabbitMQ ---
+class {'rabbitmq':
+  delete_guest_user => true,
+  service_manage    => false,
+}
+
+
 # --- Auth ---
 $sig_key = hiera('auth-signature-key')
 $auth_pass = hiera('auth-postgres-password')
