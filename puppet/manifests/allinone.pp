@@ -66,17 +66,4 @@ redis::instance {'sc-redis':
 }
 
 class {'ptero::shell_command::web': }
-
-ptero::celery{'shell-command':
-  code_dir => '/var/www/shell-command',
-  source   => hiera('sc-repo'),
-  revision => hiera('sc-tag'),
-  app      => 'ptero_shell_command_fork.implementation.celery_app:app',
-  environment => {
-    'CELERY_BROKER_URL'     =>
-      "amqp://$sc_rabbit_user:$sc_rabbit_password@localhost/$sc_rabbit_vhost",
-    'CELERY_RESULT_BACKEND' =>
-      "redis://:$sc_redis_password@localhost:$sc_redis_port",
-    'PYTHONPATH'            => '/var/www/shell-command',
-  },
-}
+class {'ptero::shell_command::celery': }
