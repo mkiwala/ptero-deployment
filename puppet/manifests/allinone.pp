@@ -1,22 +1,13 @@
 class {'apt': }
-
 class {'ptero': }
 
 
-# --- Setup database ---
+# --- External Services ---
+class {'postgresql::server': }
 package {'python-psycopg2':
   ensure => present,
 }
 
-class {'postgresql::server': }
-
-postgresql::server::db {$ptero::params::auth::database_name :
-  user     => $ptero::params::auth::database_username,
-  password => $ptero::params::auth::database_password,
-}
-
-
-# --- Setup External services ---
 class {'nginx': }
 
 class {'redis':
@@ -30,13 +21,16 @@ class {'rabbitmq':
   delete_guest_user => true,
   service_manage    => false,
 }
-
 package {'python-librabbitmq':
   ensure => present,
 }
 
 
 # --- Auth ---
+postgresql::server::db {$ptero::params::auth::database_name :
+  user     => $ptero::params::auth::database_username,
+  password => $ptero::params::auth::database_password,
+}
 class {'ptero::auth::web':
   require => Postgresql::Server::Db[$ptero::params::auth::database_name],
 }
