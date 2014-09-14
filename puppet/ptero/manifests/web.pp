@@ -10,25 +10,27 @@ define ptero::web (
 ) {
 
 # -- Install code --
-  vcsrepo {$code_dir:
-    ensure   => present,
-    provider => git,
-    source   => $source,
-    revision => $revision,
-    owner    => $owner,
-    group    => $group,
-    require  => Package['git'],
-    notify   => Service['gunicorn'],
+  if ! defined(Vcsrepo[$code_dir]) {
+    vcsrepo {$code_dir:
+      ensure   => present,
+      provider => git,
+      source   => $source,
+      revision => $revision,
+      owner    => $owner,
+      group    => $group,
+      require  => Package['git'],
+    }
   }
 
-  python::virtualenv {"$code_dir/virtualenv":
-    requirements => "$code_dir/requirements.txt",
-    owner        => $owner,
-    group        => $group,
-    systempkgs   => true,
-    require      => Vcsrepo[$code_dir],
-    subscribe    => Vcsrepo[$code_dir],
-    notify       => Service['gunicorn'],
+  if ! defined(Python::Virtualenv["$code_dir/virtualenv"]) {
+    python::virtualenv {"$code_dir/virtualenv":
+      requirements => "$code_dir/requirements.txt",
+      owner        => $owner,
+      group        => $group,
+      systempkgs   => true,
+      require      => Vcsrepo[$code_dir],
+      subscribe    => Vcsrepo[$code_dir],
+    }
   }
 
   file {"$code_dir/app.py":
