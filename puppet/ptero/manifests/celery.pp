@@ -20,26 +20,12 @@ define ptero::celery (
     ensure => present,
   }
 
-  if ! defined(Vcsrepo[$code_dir]) {
-    vcsrepo {$code_dir:
-      ensure   => present,
-      provider => git,
+  if ! defined(Ptero::Code[$code_dir]) {
+    ptero::code{$code_dir:
       source   => $source,
       revision => $revision,
       owner    => $owner,
       group    => $group,
-      require  => Package['git'],
-    }
-  }
-
-  if ! defined(Python::Virtualenv[$virtualenv]) {
-    python::virtualenv {$virtualenv:
-      requirements => "$code_dir/requirements.txt",
-      owner        => $owner,
-      group        => $group,
-      systempkgs   => true,
-      require      => Vcsrepo[$code_dir],
-      subscribe    => Vcsrepo[$code_dir],
     }
   }
 

@@ -9,27 +9,12 @@ define ptero::web (
   $environment = false,
 ) {
 
-# -- Install code --
-  if ! defined(Vcsrepo[$code_dir]) {
-    vcsrepo {$code_dir:
-      ensure   => present,
-      provider => git,
+  if ! defined(Ptero::Code[$code_dir]) {
+    ptero::code{$code_dir:
       source   => $source,
       revision => $revision,
       owner    => $owner,
       group    => $group,
-      require  => Package['git'],
-    }
-  }
-
-  if ! defined(Python::Virtualenv["$code_dir/virtualenv"]) {
-    python::virtualenv {"$code_dir/virtualenv":
-      requirements => "$code_dir/requirements.txt",
-      owner        => $owner,
-      group        => $group,
-      systempkgs   => true,
-      require      => Vcsrepo[$code_dir],
-      subscribe    => Vcsrepo[$code_dir],
     }
   }
 
