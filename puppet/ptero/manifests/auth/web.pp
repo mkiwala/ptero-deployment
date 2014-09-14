@@ -1,20 +1,15 @@
 class ptero::auth::web() {
-
-  $sig_key = hiera('auth-signature-key')
-  $auth_pass = hiera('auth-postgres-password')
   ptero::web{'auth':
-    code_dir    => '/var/www/auth',
-    source      => hiera('auth-repo'),
-    revision    => hiera('auth-tag'),
-    listen_port => hiera('auth-port'),
+    code_dir    => $ptero::params::auth::target_directory,
+    source      => $ptero::params::auth::repo,
+    revision    => $ptero::params::auth::tag,
+    listen_port => $ptero::params::auth::port,
     app         => 'puppet:///modules/ptero/auth/app.py',
     environment => {
-      'SIGNATURE_KEY' => "$sig_key",
-      'DATABASE_URL'  =>
-        "postgres://ptero_auth:$auth_pass@localhost/ptero_auth",
-      'AUTH_URL'      => 'http://192.168.10.10',
+      'SIGNATURE_KEY' => $ptero::params::auth::signature_key,
+      'DATABASE_URL'  => $ptero::params::auth::database_url,
+      'AUTH_URL'      => $ptero::params::auth::url,
     },
     require     => Postgresql::Server::Db['ptero_auth'],
   }
-
 }
