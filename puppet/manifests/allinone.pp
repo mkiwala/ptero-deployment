@@ -24,6 +24,15 @@ postgresql::server::db {'ptero_auth':
 class {'nginx': }
 
 
+# --- Setup Redis ---
+class {'redis':
+  redis_bind_address => '127.0.0.1',
+  redis_password     => 'never-enter',
+  redis_max_memory   => '0mb',
+  version            => '2.8.15',
+}
+
+
 # --- Setup RabbitMQ ---
 class {'rabbitmq':
   delete_guest_user => true,
