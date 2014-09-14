@@ -10,9 +10,9 @@ package {'python-psycopg2':
 
 class {'postgresql::server': }
 
-postgresql::server::db {'ptero_auth':
-  user     => 'ptero_auth',
-  password => hiera('auth-postgres-password'),
+postgresql::server::db {$ptero::params::auth::database_name :
+  user     => $ptero::params::auth::database_username,
+  password => $ptero::params::auth::database_password,
 }
 
 
@@ -38,7 +38,7 @@ package {'python-librabbitmq':
 
 # --- Auth ---
 class {'ptero::auth::web':
-  require => Postgresql::Server::Db['ptero_auth'],
+  require => Postgresql::Server::Db[$ptero::params::auth::database_name],
 }
 
 
