@@ -31,6 +31,10 @@ class {'rabbitmq':
   service_manage    => false,
 }
 
+package {'python-librabbitmq':
+  ensure => present,
+}
+
 
 # --- Auth ---
 class {'ptero::auth::web': }
