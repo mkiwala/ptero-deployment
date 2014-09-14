@@ -5,4 +5,8 @@ class ptero() {
     version    => 'system',
     virtualenv => true,
   }
+
+  package {'git':
+    ensure => present,
+  }
 }

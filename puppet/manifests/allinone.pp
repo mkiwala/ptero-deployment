@@ -5,10 +5,6 @@ exec {'apt-get update':
 
 Exec['apt-get update'] -> Package<| |>
 
-package {'git':
-  ensure => present,
-}
-
 class {'ptero': }
 
 # --- Setup database ---
