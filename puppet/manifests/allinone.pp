@@ -47,7 +47,7 @@ ptero::web{'auth':
   code_dir    => '/var/www/auth',
   source      => hiera('auth-repo'),
   revision    => hiera('auth-tag'),
-  listen_port => 80,
+  listen_port => hiera('auth-port'),
   app         => 'puppet:///modules/ptero/auth/app.py',
   environment => {
     'SIGNATURE_KEY' => "$sig_key",
