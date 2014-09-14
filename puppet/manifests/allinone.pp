@@ -2,6 +2,7 @@ class {'apt': }
 
 class {'ptero': }
 
+
 # --- Setup database ---
 package {'python-psycopg2':
   ensure => present,
@@ -15,11 +16,9 @@ postgresql::server::db {'ptero_auth':
 }
 
 
-# --- Setup Nginx ---
+# --- Setup External services ---
 class {'nginx': }
 
-
-# --- Setup Redis ---
 class {'redis':
   redis_bind_address => '127.0.0.1',
   redis_password     => 'never-enter',
@@ -27,14 +26,13 @@ class {'redis':
   version            => '2.8.15',
 }
 
-
-# --- Setup RabbitMQ ---
 class {'rabbitmq':
   delete_guest_user => true,
   service_manage    => false,
 }
 
 
+# --- Auth ---
 class {'ptero::auth::web': }
 
 
