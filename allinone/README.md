@@ -4,10 +4,9 @@ with all of the PTero services running on it.
 
 
 ## Getting Started
-Running the virtual machine requires both
-[Vagrant](http://www.vagrantup.com/) and
-[VirtualBox](https://www.virtualbox.org/).  Once they are installed, install
-the Vagrant/Librarian Puppet plugin:
+Running the virtual machine requires [Vagrant](http://www.vagrantup.com/) 1.6
+or newer and [VirtualBox](https://www.virtualbox.org/).  Once they are
+installed, install the Vagrant/Librarian Puppet plugin:
 
     vagrant plugin install vagrant-librarian-puppet
 
