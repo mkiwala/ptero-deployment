@@ -15,7 +15,7 @@ class ptero::params::shell_command {
   $repo = hiera('sc-repo')
   $tag = hiera('sc-tag')
 
-  $ip = hiera('sc-ip', $::ipaddress)
+  $host = hiera('sc-host', $::ipaddress)
   $port = hiera('sc-port')
-  $url = "http://$ip:$port"
+  $url = "http://$host:$port"
 }
