@@ -16,3 +16,22 @@ sc-rabbit-password: scrabbitpass
 
 sc-redis-port: 6380
 sc-redis-password: scredispass
+
+
+petri-repo: http://github.com/mark-burnett/ptero-petri.git
+petri-tag: master
+petri-host: 192.168.10.10
+petri-port: 2000
+
+petri-database-name: ptero_petri
+petri-database-username: allinone-petri-postgres-username
+petri-database-password: allinone-petri-postgres-password
+
+petri-rabbit-vhost: petri
+petri-rabbit-user: petrirabbituser
+petri-rabbit-password: petrirabbitpass
+
+petri-redis-port: 6381
+petri-redis-password: petriredispass
+
+petri-num-orchestrators: 3

@@ -51,3 +51,24 @@ class {'ptero::shell_command::celery':
     Class['ptero::shell_command::redis'],
   ],
 }
+
+
+# --- Petri ---
+postgresql::server::db {$ptero::params::petri::database_name :
+  user     => $ptero::params::petri::database_username,
+  password => $ptero::params::petri::database_password,
+}
+class {'ptero::petri::rabbitmq': }
+class {'ptero::petri::redis': }
+class {'ptero::petri::web':
+  require => [
+    Class['ptero::petri::rabbitmq'],
+    Class['ptero::petri::redis'],
+  ],
+}
+class {'ptero::petri::orchestrator':
+  require => [
+    Class['ptero::petri::rabbitmq'],
+    Class['ptero::petri::redis'],
+  ],
+}

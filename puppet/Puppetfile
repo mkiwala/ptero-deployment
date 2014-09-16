@@ -1,5 +1,6 @@
 forge "https://forge.puppetlabs.com"
 
+mod 'daenney-circus'
 mod 'jfryman-nginx'
 mod 'puppetlabs-apt'
 mod 'puppetlabs-postgresql'
