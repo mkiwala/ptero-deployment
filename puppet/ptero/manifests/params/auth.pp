@@ -12,7 +12,7 @@ class ptero::params::auth {
   $repo = hiera('auth-repo')
   $tag = hiera('auth-tag')
 
-  $ip = hiera('auth-ip', $::ipaddress)
+  $host = hiera('auth-host', $::ipaddress)
   $port = hiera('auth-port')
-  $url = "http://$ip:$port"
+  $url = "http://$host:$port"
 }
