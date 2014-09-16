@@ -35,3 +35,13 @@ petri-redis-port: 6381
 petri-redis-password: petriredispass
 
 petri-num-orchestrators: 3
+
+
+workflow-repo: http://github.com/mark-burnett/ptero-workflow.git
+workflow-tag: master
+workflow-host: 192.168.10.10
+workflow-port: 4000
+
+workflow-database-name: ptero_workflow
+workflow-database-username: allinone-workflow-postgres-username
+workflow-database-password: allinone-workflow-postgres-password

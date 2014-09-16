@@ -72,3 +72,13 @@ class {'ptero::petri::orchestrator':
     Class['ptero::petri::redis'],
   ],
 }
+
+
+# --- Workflow ---
+postgresql::server::db {$ptero::params::workflow::database_name :
+  user     => $ptero::params::workflow::database_username,
+  password => $ptero::params::workflow::database_password,
+}
+class {'ptero::workflow::web':
+  require => Postgresql::Server::Db[$ptero::params::workflow::database_name],
+}
