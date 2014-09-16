@@ -12,7 +12,7 @@ class ptero::params::petri {
   $rabbitmq_username = hiera('petri-rabbit-user')
   $rabbitmq_password = hiera('petri-rabbit-password')
   $rabbitmq_full_user = "$rabbitmq_username@$rabbitmq_vhost"
-  $rabbitmq_url = "amqp://$rabbitmq_username:$rabbitmq_password@$rabbitmq_host/$rabbitmq_vhost"
+  $rabbitmq_url = "amqp://$rabbitmq_username:$rabbitmq_password@$rabbitmq_host:$rabbitmq_port/$rabbitmq_vhost"
 
   $redis_host = hiera('petri-redis-host', 'localhost')
   $redis_port = hiera('petri-redis-port')
