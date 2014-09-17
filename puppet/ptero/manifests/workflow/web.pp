@@ -1,4 +1,6 @@
 class ptero::workflow::web {
+  require ptero::params
+
   ptero::web{'workflow':
     code_dir                     => $ptero::params::workflow::target_directory,
     source                       => $ptero::params::workflow::repo,

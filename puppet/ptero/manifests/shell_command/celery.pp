@@ -1,4 +1,6 @@
 class ptero::shell_command::celery() {
+  require ptero::params
+
   ptero::celery{'shell-command':
     code_dir => $ptero::params::shell_command::target_directory,
     source   => $ptero::params::shell_command::repo,

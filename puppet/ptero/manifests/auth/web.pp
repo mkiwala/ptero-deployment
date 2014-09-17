@@ -1,4 +1,6 @@
 class ptero::auth::web() {
+  require ptero::params
+
   ptero::web{'auth':
     code_dir    => $ptero::params::auth::target_directory,
     source      => $ptero::params::auth::repo,

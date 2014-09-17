@@ -2,6 +2,8 @@ class ptero::petri::orchestrator(
   $owner = 'celery',
   $group = 'celery',
 ) {
+  require ptero
+
   $code_dir = $ptero::params::petri::target_directory
 
   if ! defined(User[$owner]) {
@@ -28,9 +30,7 @@ class ptero::petri::orchestrator(
     }
   }
 
-  class { 'circus':
-    require => Package['python-pip'],
-  }
+  class { 'circus': }
 
   $circus_command = "$ptero::params::petri::target_directory/virtualenv/bin/python"
   $circus_args = "ptero_petri/implementation/orchestrator/main.py"

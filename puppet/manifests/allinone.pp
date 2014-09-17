@@ -1,6 +1,5 @@
-class {'apt': }
-class {'ptero': }
-
+include apt
+require ptero::params
 
 # --- External Services ---
 class {'postgresql::server': }

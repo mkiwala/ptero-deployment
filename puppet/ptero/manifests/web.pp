@@ -8,6 +8,7 @@ define ptero::web (
   $group = 'www-data',
   $environment = false,
 ) {
+  require ptero
 
   if ! defined(Ptero::Code[$code_dir]) {
     ptero::code{$code_dir:

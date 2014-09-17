@@ -1,4 +1,6 @@
 class ptero::petri::web {
+  require ptero::params
+
   ptero::web{'petri':
     code_dir    => $ptero::params::petri::target_directory,
     source      => $ptero::params::petri::repo,

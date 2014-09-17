@@ -1,4 +1,6 @@
 class ptero::shell_command::rabbitmq() {
+  require ptero::params
+
   rabbitmq_vhost {$ptero::params::shell_command::rabbitmq_vhost :
     ensure => present,
   }
