@@ -1,1 +1,5 @@
 *.pyc
+.vagrant
+puppet/modules
+puppet/.tmp
+puppet/Puppetfile.lock
