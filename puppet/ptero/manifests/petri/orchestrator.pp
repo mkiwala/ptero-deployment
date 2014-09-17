@@ -3,7 +3,6 @@ class ptero::petri::orchestrator(
   $group = 'celery',
 ) {
   require ptero
-  require circus
 
   $code_dir = $ptero::params::petri::target_directory
 
@@ -30,6 +29,8 @@ class ptero::petri::orchestrator(
       group    => 'www-data',
     }
   }
+
+  class { 'circus': }
 
   $circus_command = "$ptero::params::petri::target_directory/virtualenv/bin/python"
   $circus_args = "ptero_petri/implementation/orchestrator/main.py"
@@ -61,5 +62,3 @@ class ptero::petri::orchestrator(
     notify       => Service['circus'],
   }
 }
-
-Class['ptero'] -> Class['circus']
