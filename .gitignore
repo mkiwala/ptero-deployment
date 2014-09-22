@@ -1,5 +1,5 @@
 *.pyc
 .vagrant
-puppet/modules
-puppet/.tmp
-puppet/Puppetfile.lock
+/allinone/puppet/modules
+/allinone/puppet/.tmp
+/allinone/puppet/Puppetfile.lock
