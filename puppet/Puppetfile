@@ -10,4 +10,4 @@ mod 'stankevich-python'
 mod 'thomasvandoren-redis'
 
 mod 'genome-ptero',
-    :path => './ptero'
+    :git => "git://github.com/genome/ptero-puppet.git"
