@@ -1,5 +1,6 @@
 auth-repo: http://github.com/genome/ptero-auth.git
 auth-tag: master
+auth-host: 192.168.10.10
 auth-port: 80
 
 auth-postgres-password: allinone-auth-postgres-password
@@ -8,6 +9,7 @@ auth-signature-key: "-----BEGIN RSA PRIVATE KEY-----\\nMIIEowIBAAKCAQEAyM5QtdqcE
 
 sc-repo: http://github.com/genome/ptero-shell-command.git
 sc-tag: master
+sc-host: 192.168.10.10
 sc-port: 3000
 
 sc-rabbit-vhost: shell-command
