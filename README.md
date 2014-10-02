@@ -2,7 +2,7 @@
 This repository contains the scripts necessary to deploy and update all PTero
 services.
 
-The `/allinone` directory contains a Vagrantfile for spinning up a complete set
+The `/vagrant` directory contains a Vagrantfile for spinning up a complete set
 of PTero services in a single VM.
 
 ## Description
