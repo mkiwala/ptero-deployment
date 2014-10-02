@@ -1,4 +1,3 @@
-*.pyc
 .vagrant
 /allinone/puppet/modules
 /allinone/puppet/.tmp
