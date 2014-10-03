@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+source $PTERO_COMMON
+
+log "Installing vagrant plugins..."
+log
+
+vagrant plugin install vagrant-librarian-puppet

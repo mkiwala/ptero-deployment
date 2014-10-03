@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+source $PTERO_COMMON
+
+REQUIRED_MAJOR_VERSION=1
+REQUIRED_MINOR_VERSION=6
+
+display_vagrant_install_help() {
+    log "Visit http://www.vagrantup.com/ to find installation instructions for Vagrant."
+}
+
+display_insufficient_vagrant_version_help() {
+    log "Insufficient Vagrant version ($1) -- ${REQUIRED_MAJOR_VERSION}.${REQUIRED_MINOR_VERSION}.X+ required."
+    display_vagrant_install_help
+}
+
+display_vagrant_plugin_install_help() {
+    log "Could not find required vagrant plugins."
+    log "Run 'ptero deploy vagrant init' to install them."
+}
+
+verify_vagrant_executable() {
+    if [ -z "$1" ]; then
+        log "Could not find 'vagrant' executable in PATH."
+        display_vagrant_install_help
+        exit 1
+    fi
+}
+
+verify_vagrant_version() {
+    if [[ $1 =~ ([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+        VAGRANT_MAJOR_VERSION=${BASH_REMATCH[1]}
+        VAGRANT_MINOR_VERSION=${BASH_REMATCH[2]}
+        VAGRANT_PATCH_VERSION=${BASH_REMATCH[3]}
+
+        if [ $VAGRANT_MAJOR_VERSION -lt $REQUIRED_MAJOR_VERSION ]; then
+            display_insufficient_vagrant_version_help ${VAGRANT_VERSION}
+            exit 1
+        fi
+        if [ $VAGRANT_MAJOR_VERSION -eq $REQUIRED_MAJOR_VERSION ]; then
+            if [ $VAGRANT_MINOR_VERSION -lt $REQUIRED_MINOR_VERSION ]; then
+                display_insufficient_vagrant_version_help ${VAGRANT_VERSION}
+            fi
+        fi
+
+    else
+        log "Could not determine Vagrant version."
+        display_vagrant_install_help
+        exit 1
+    fi
+}
+
+verify_vagrant_plugins() {
+    if [ -z "$(vagrant plugin list | grep vagrant-librarian-puppet)" ]; then
+        display_vagrant_plugin_install_help
+        exit 1
+    fi
+}
+
+
+VAGRANT_EXECUTABLE=$(which vagrant || true)
+verify_vagrant_executable $VAGRANT_EXECUTABLE
+
+VAGRANT_VERSION=$(vagrant --version | awk '{print $2}')
+verify_vagrant_version $VAGRANT_VERSION
+
+verify_vagrant_plugins
+
+
+delegate_to_subcommand $@
