@@ -1,4 +1,0 @@
-fabric
-python-novaclient
-python-heatclient
-pyyaml
