@@ -1,0 +1,40 @@
+sc-repo: http://github.com/genome/ptero-shell-command.git
+sc-tag: master
+sc-host: 192.168.10.10
+sc-port: 3000
+
+sc-rabbit-vhost: shell-command
+sc-rabbit-user: scrabbituser
+sc-rabbit-password: scrabbitpass
+
+sc-redis-port: 6380
+sc-redis-password: scredispass
+
+
+petri-repo: http://github.com/genome/ptero-petri.git
+petri-tag: master
+petri-host: 192.168.10.10
+petri-port: 2000
+
+petri-database-name: ptero_petri
+petri-database-username: allinone-petri-postgres-username
+petri-database-password: allinone-petri-postgres-password
+
+petri-rabbit-vhost: petri
+petri-rabbit-user: petrirabbituser
+petri-rabbit-password: petrirabbitpass
+
+petri-redis-port: 6381
+petri-redis-password: petriredispass
+
+petri-num-orchestrators: 3
+
+
+workflow-repo: http://github.com/genome/ptero-workflow.git
+workflow-tag: master
+workflow-host: 192.168.10.10
+workflow-port: 4000
+
+workflow-database-name: ptero_workflow
+workflow-database-username: allinone-workflow-postgres-username
+workflow-database-password: allinone-workflow-postgres-password

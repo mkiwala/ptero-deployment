@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+VM_DIR=$PTERO_DIR/deployment/benchmark
+
+cd $VM_DIR
+vagrant destroy --force
