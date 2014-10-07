@@ -1,6 +1,6 @@
 sc-repo: http://github.com/genome/ptero-shell-command.git
 sc-tag: master
-sc-host: 192.168.10.10
+sc-host: 192.168.20.20
 sc-port: 3000
 
 sc-rabbit-vhost: shell-command
@@ -13,7 +13,7 @@ sc-redis-password: scredispass
 
 petri-repo: http://github.com/genome/ptero-petri.git
 petri-tag: master
-petri-host: 192.168.10.10
+petri-host: 192.168.20.20
 petri-port: 2000
 
 petri-database-name: ptero_petri
@@ -32,7 +32,7 @@ petri-num-orchestrators: 1
 
 workflow-repo: http://github.com/genome/ptero-workflow.git
 workflow-tag: master
-workflow-host: 192.168.10.10
+workflow-host: 192.168.20.20
 workflow-port: 4000
 
 workflow-database-name: ptero_workflow
