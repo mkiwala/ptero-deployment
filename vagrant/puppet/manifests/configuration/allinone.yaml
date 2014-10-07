@@ -27,7 +27,7 @@ petri-rabbit-password: petrirabbitpass
 petri-redis-port: 6381
 petri-redis-password: petriredispass
 
-petri-num-orchestrators: 3
+petri-num-orchestrators: 1
 
 
 workflow-repo: http://github.com/genome/ptero-workflow.git
