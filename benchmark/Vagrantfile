@@ -6,12 +6,12 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
-  config.vm.network "private_network", ip: ENV['PTERO_IP'] || "192.168.20.20"
+  config.vm.network "private_network", ip: ENV['PTERO_IP'] || "192.168.10.10"
 
   config.vm.provider "virtualbox" do |vb|
     # Use VBoxManage to customize the VM. For example to change memory:
-    vb.customize ["modifyvm", :id, "--memory", "1024"]
-    vb.customize ["modifyvm", :id, "--cpus",   "1"]
+    vb.customize ["modifyvm", :id, "--memory", "4096"]
+    vb.customize ["modifyvm", :id, "--cpus",   "4"]
     vb.customize ["modifyvm", :id, "--ioapic", "on"]
 
   end

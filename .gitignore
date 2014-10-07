@@ -1,4 +1,4 @@
 .vagrant
-/vagrant/puppet/modules
-/vagrant/puppet/.tmp
-/vagrant/puppet/Puppetfile.lock
+*/puppet/modules
+*/puppet/.tmp
+*/puppet/Puppetfile.lock
