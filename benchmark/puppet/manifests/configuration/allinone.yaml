@@ -10,6 +10,9 @@ sc-rabbit-password: scrabbitpass
 sc-redis-port: 6380
 sc-redis-password: scredispass
 
+sc-fork-workers: 4
+sc-http-workers: 4
+
 
 petri-repo: http://github.com/genome/ptero-petri.git
 petri-tag: master
