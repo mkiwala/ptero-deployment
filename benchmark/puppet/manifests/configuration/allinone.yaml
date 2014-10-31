@@ -30,7 +30,10 @@ petri-rabbit-password: petrirabbitpass
 petri-redis-port: 6381
 petri-redis-password: petriredispass
 
-petri-num-orchestrators: 3
+petri-redis-celery-port: 6382
+petri-redis-celery-password: petrirediscelerypass
+
+petri-celery-workers: 3
 
 
 workflow-repo: http://github.com/genome/ptero-workflow.git
