@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo "{\"start_time\": `date +%s.%N`}"
