@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+source $PTERO_COMMON
+
+log "Stopping all apps..."
+log
+
+"${PTERO_DIR}/ptero" service foreach deis ps:scale '$(cut -d: -f1 Procfile | sed s/\$/=0/)'

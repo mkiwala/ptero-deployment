@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+source $PTERO_COMMON
+
+if [ ! -f "$1" ]; then
+    log "Must specify a configuration file"
+    exit 1
+fi
+
+CONFIG_FILE=$(python_realpath $1)
+
+log "Setting app configs..."
+log
+
+"${PTERO_DIR}/ptero" service foreach "${PTERO_DIR}/deployment/libexec/deis-service-config-set" "${CONFIG_FILE}"
