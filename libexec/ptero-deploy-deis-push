@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+source $PTERO_COMMON
+
+if [ -z "$1" ]; then
+    log "Must specify a ref to push"
+    exit 1
+fi
+
+REF=$1
+
+log "Pushing apps..."
+log
+
+"${PTERO_DIR}/ptero" service foreach git push deis $REF

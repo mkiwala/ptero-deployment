@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+source $PTERO_COMMON
+
+"${PTERO_DIR}/ptero" service foreach deis config:unset '$(deis config | awk "{print \$1}" | tail -n +2)'

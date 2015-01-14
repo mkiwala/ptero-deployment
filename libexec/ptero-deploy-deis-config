@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+source $PTERO_COMMON
+source $PTERO_DIR/deployment/libexec/common-ptero-deploy-deis
+
+delegate_to_subcommand $@
