@@ -20,10 +20,3 @@ verify_deis() {
     verify_deis_in_path
     verify_deis_logged_in
 }
-
-verify_jq() {
-    if [ -z $(which jq) ]; then
-        log "jq must be available in PATH"
-        exit 1
-    fi
-}
