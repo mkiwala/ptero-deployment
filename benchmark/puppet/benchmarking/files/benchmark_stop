@@ -1,8 +1,0 @@
-#!/bin/bash
-
-STOP_TIME=`date +%s.%N`
-START_TIME=$(jq '.start_time | tonumber' <&0)
-
-RUN_TIME=$(echo $STOP_TIME - $START_TIME | bc)
-
-echo "{\"run_time\": $RUN_TIME}"
