@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-source $PTERO_COMMON
-source $PTERO_DIR/deployment/libexec/common-ptero-deploy-vagrant
-
-verify_vagrant
-
-delegate_to_subcommand $@
