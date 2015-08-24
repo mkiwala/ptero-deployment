@@ -27,18 +27,5 @@ for env_var in "$VARS $WORKER_VARS"; do
     eval "export $env_var"
 done
 
-
-VIRTUALENV_DIR="$PTERO_DIR/services/shell-command/.tox/py27/bin"
-log "Using tox to ensure virtualenv is up to date..."
-TOX_OUTPUT=$(tox -c services/shell-command/tox.ini --notest)
-if test ! -d "$VIRTUALENV_DIR"; then
-    echo -e "Output from tox:\n\n$TOX_OUTPUT\n\n" 1>&2
-    log "Failed to create virtualenv using tox... aborting."
-    exit 1;
-fi
-
-log "Found virtualenv at $VIRTUALENV_DIR, entering virtualenv..."
-source "$VIRTUALENV_DIR/activate"
-
 log "Launching a shell-command-worker..."
 celery worker -A ptero_shell_command.implementation.celery_app --concurrency $PTERO_SHELL_COMMAND_WORKER_CONCURRENCY -Q fork
