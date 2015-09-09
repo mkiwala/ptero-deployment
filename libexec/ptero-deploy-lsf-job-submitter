@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+trap 'kill -TERM $PID; wait $PID' TERM INT
+
 source $PTERO_COMMON
 
 verify_jq
@@ -28,4 +30,6 @@ for env_var in "$VARS $WORKER_VARS"; do
 done
 
 log "Launching a lsf-job-submitter..."
-celery worker -A ptero_lsf.implementation.celery_app --concurrency=$PTERO_LSF_WORKER_CONCURRENCY -Q lsftask
+celery worker -A ptero_lsf.implementation.celery_app --concurrency=$PTERO_LSF_WORKER_CONCURRENCY -Q lsftask &
+PID=$!
+wait $PID

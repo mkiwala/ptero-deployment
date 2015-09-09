@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+trap 'kill -TERM $PID; wait $PID' TERM INT
+
 source $PTERO_COMMON
 
 verify_jq
@@ -28,4 +30,6 @@ for env_var in "$VARS $WORKER_VARS"; do
 done
 
 log "Launching a shell-command-worker..."
-celery worker -A ptero_shell_command.implementation.celery_app --concurrency $PTERO_SHELL_COMMAND_WORKER_CONCURRENCY -Q fork
+celery worker -A ptero_shell_command.implementation.celery_app --concurrency $PTERO_SHELL_COMMAND_WORKER_CONCURRENCY -Q fork &
+PID=$!
+wait $PID
