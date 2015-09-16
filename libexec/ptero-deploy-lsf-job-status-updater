@@ -11,6 +11,13 @@ if [ ! -f "$1" ]; then
     exit 1
 fi
 
+if [ ! -f "$2" ]; then
+    log "Must specify a lsf configuration to source"
+    exit 1
+else
+    source $2
+fi
+
 CONFIG_FILE=$(python_realpath $1)
 SERVICE='"lsf"'
 
