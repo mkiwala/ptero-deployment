@@ -15,7 +15,9 @@ if [ ! -f "$2" ]; then
     log "Must specify a lsf configuration to source"
     exit 1
 else
+    set +e
     source $2
+    set -e
 fi
 
 CONFIG_FILE=$(python_realpath $1)
