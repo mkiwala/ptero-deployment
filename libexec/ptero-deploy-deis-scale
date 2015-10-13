@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
 
+set -e
 source $PTERO_COMMON
 
-if [ ! -f "$1" ]; then
-    log "Must specify a configuration file"
-    exit 1
-fi
-
-CONFIG_FILE=$(python_realpath $1)
+CONFIG=${@: -1}
 
 log "Scaling apps..."
 log
 
-"${PTERO_DIR}/ptero" service foreach "${PTERO_DIR}/deployment/libexec/deis-service-scale" "${CONFIG_FILE}"
+"${PTERO_DIR}/ptero" deploy deis service-foreach $CONFIG "${PTERO_DIR}/ptero" deploy deis scale-service $CONFIG
