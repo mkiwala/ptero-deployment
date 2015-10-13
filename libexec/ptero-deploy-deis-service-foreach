@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+source $PTERO_COMMON
+
+ARGS=($@)
+CONFIG=${ARGS[0]}
+COMMAND=${ARGS[@]:1}
+
+for SERVICE in $(jq '.services | keys | .[]' $CONFIG); do
+    eval $COMMAND $SERVICE
+done
