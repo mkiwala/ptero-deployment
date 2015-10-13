@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+source $PTERO_COMMON
+
+ARGS=($@)
+CONFIG=${ARGS[0]}
+SERVICE=${ARGS[1]}
+
+log "Stopping $SERVICE..."
+
+DEIS_SCALE_ARGS=$(jq -r '.services.'"\"${SERVICE}\""'.scale | keys | .[] + "=0"' $CONFIG)
+deis ps:scale $DEIS_SCALE_ARGS --app=$SERVICE
+
+log
