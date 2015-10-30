@@ -2,14 +2,9 @@
 
 source $PTERO_COMMON
 
-if [ ! -f "$1" ]; then
-    log "Must specify a configuration file"
-    exit 1
-fi
-
-CONFIG_FILE=$(python_realpath $1)
+DEPLOYMENT_CONFIG=${1?"Usage: $0 DEPLOYMENT_CONFIG"}
 
 log "Setting app configs..."
 log
 
-"${PTERO_DIR}/ptero" deploy deis service-foreach "${CONFIG_FILE}" "${PTERO_DIR}/deployment/libexec/deis-service-config-set" "${CONFIG_FILE}"
+"${PTERO_DIR}/ptero" deploy deis service-foreach "${DEPLOYMENT_CONFIG}" "${PTERO_DIR}/deployment/libexec/deis-service-config-set" "${DEPLOYMENT_CONFIG}"
