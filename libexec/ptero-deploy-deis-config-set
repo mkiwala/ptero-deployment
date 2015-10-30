@@ -12,4 +12,4 @@ CONFIG_FILE=$(python_realpath $1)
 log "Setting app configs..."
 log
 
-"${PTERO_DIR}/ptero" service foreach "${PTERO_DIR}/deployment/libexec/deis-service-config-set" "${CONFIG_FILE}"
+"${PTERO_DIR}/ptero" deploy deis service-foreach "${CONFIG_FILE}" "${PTERO_DIR}/deployment/libexec/deis-service-config-set" "${CONFIG_FILE}"
