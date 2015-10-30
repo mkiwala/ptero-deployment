@@ -3,13 +3,13 @@
 set -e
 source $PTERO_COMMON
 
-ARGS=($@)
-CONFIG=${ARGS[0]}
-SERVICE=${ARGS[1]}
+USAGE_MESSAGE="Usage: $0 APP_NAME DEPLOYMENT_CONFIG"
+DEPLOYMENT_CONFIG=${1?"$USAGE_MESSAGE"}
+APP_NAME=${1?"$USAGE_MESSAGE"}
 
-log "Scaling $SERVICE..."
+log "Scaling $APP_NAME..."
 
-DEIS_SCALE_ARGS=$(jq -r '.services.'"\"${SERVICE}\""'.scale | to_entries | map("\(.key)=\(.value)") | .[]' $CONFIG)
-deis ps:scale $DEIS_SCALE_ARGS --app=$SERVICE
+DEIS_SCALE_ARGS=$(jq -r '.services.'"\"${APP_NAME}\""'.scale | to_entries | map("\(.key)=\(.value)") | .[]' $DEPLOYMENT_CONFIG)
+deis ps:scale $DEIS_SCALE_ARGS --app=$APP_NAME
 
 log

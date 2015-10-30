@@ -3,10 +3,10 @@
 set -e
 source $PTERO_COMMON
 
-ARGS=($@)
-CONFIG=${ARGS[0]}
-COMMAND=${ARGS[@]:1}
+USAGE_MESSAGE="Usage: $0 DEPLOYMENT_CONFIG COMMAND"
+DEPLOYMENT_CONFIG=${1?"$USAGE_MESSAGE"}
+COMMAND=${2?"$USAGE_MESSAGE"}
 
-for SERVICE in $(jq '.services | keys | .[]' $CONFIG); do
+for SERVICE in $(jq '.services | keys | .[]' $DEPLOYMENT_CONFIG); do
     eval $COMMAND $SERVICE
 done

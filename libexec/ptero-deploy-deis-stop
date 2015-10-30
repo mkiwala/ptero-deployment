@@ -3,9 +3,9 @@
 set -e
 source $PTERO_COMMON
 
-CONFIG=${@: -1}
+DEPLOYMENT_CONFIG=${1?"Usage: $0 DEPLOYMENT_CONFIG"}
 
 log "Stopping apps..."
 log
 
-"${PTERO_DIR}/ptero" deploy deis service-foreach $CONFIG "${PTERO_DIR}/ptero" deploy deis stop-service $CONFIG
+"${PTERO_DIR}/ptero" deploy deis service-foreach $DEPLOYMENT_CONFIG "${PTERO_DIR}/ptero" deploy deis stop-service $DEPLOYMENT_CONFIG
