@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
+set -e
 source $PTERO_COMMON
 
-log "Stopping all apps..."
+DEPLOYMENT_CONFIG=${1?"Usage: $0 DEPLOYMENT_CONFIG"}
+
+log "Stopping apps..."
 log
 
-"${PTERO_DIR}/ptero" service foreach deis ps:scale '$(cut -d: -f1 Procfile | sed s/\$/=0/)'
+"${PTERO_DIR}/ptero" deploy deis service-foreach $DEPLOYMENT_CONFIG "${PTERO_DIR}/ptero" deploy deis stop-service $DEPLOYMENT_CONFIG

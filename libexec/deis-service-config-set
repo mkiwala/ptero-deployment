@@ -1,12 +1,7 @@
 #!/usr/bin/env bash
 
-CONFIG="$1"
+USAGE_MESSAGE="Usage: $0 DEPLOYMENT_CONFIG APP_NAME"
+DEPLOYMENT_CONFIG=${1?"$USAGE_MESSAGE"}
+APP_NAME=${2?"$USAGE_MESSAGE"}
 
-SERVICE="\"$(pwd | xargs basename)\""
-
-if [ $(jq ".services?.${SERVICE}|type|@text" ${CONFIG}) = '"null"' ]; then
-    echo "Failed to find configuration for service ${SERVICE} in config file ${COFNIG}" 1>&2
-    exit 1
-fi
-
-deis config:set $(jq -r ".services.${SERVICE}.environment|with_entries(.key = .key + \"=\" + .value)|keys|@sh" "${CONFIG}" | sed s/\'//g)
+deis config:set -a $APP_NAME $(jq -r '.services.'"\"$APP_NAME\""'.environment|with_entries(.key = .key + "=" + .value)|keys|@sh' "${DEPLOYMENT_CONFIG}" | sed s/\'//g)

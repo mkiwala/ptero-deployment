@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+source $PTERO_COMMON
+
+USAGE_MESSAGE="Usage: $0 DEPLOYMENT_CONFIG COMMAND"
+DEPLOYMENT_CONFIG=${1?"$USAGE_MESSAGE"}
+shift
+
+for SERVICE in $(jq '.services | keys | .[]' $DEPLOYMENT_CONFIG); do
+    eval $@ $SERVICE
+done
