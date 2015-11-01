@@ -1,0 +1,29 @@
+trap 'kill -TERM $PID; wait $PID' TERM INT
+
+USAGE="Usage: $0 DEPLOYMENT_CONFIG APP_NAME"
+DEPLOYMENT_CONFIG=${1?"$USAGE"}
+APP_NAME=${2?"$USAGE"}
+
+source $PTERO_COMMON
+
+if [ ! -f "$DEPLOYMENT_CONFIG" ]; then
+    log "Must specify a configuration file"
+    exit 1
+fi
+
+CONFIG_FILE=$(python_realpath $DEPLOYMENT_CONFIG)
+
+log "Setting up environment for $APP_NAME worker from config file: $CONFIG_FILE"
+
+verify_jq
+if [ $(jq '.services?.'"\"${APP_NAME}\""'|type|@text' ${CONFIG_FILE}) = '"null"' ]; then
+    echo "Failed to find configuration for service ${APP_NAME} in config file ${CONFIG_FILE}" 1>&2
+    exit 1
+fi
+
+VARS=$(jq -r '.services.'"\"${APP_NAME}\""'.environment|with_entries(.key = .key + "=" + .value)|keys|@sh' "${CONFIG_FILE}" | sed s/\'//g)
+WORKER_VARS=$(jq -r '.services.'"\"${APP_NAME}\""'."worker-environment"|with_entries(.key = .key + "=" + .value)|keys|@sh' "${CONFIG_FILE}" | sed s/\'//g)
+
+for env_var in "$VARS $WORKER_VARS"; do
+    eval "export $env_var"
+done
