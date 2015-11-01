@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -e
+source $PTERO_COMMON
+
+USAGE_MESSAGE="Usage: $0 APP_NAME DEPLOYMENT_CONFIG"
+DEPLOYMENT_CONFIG=${1?"$USAGE_MESSAGE"}
+APP_NAME=${2?"$USAGE_MESSAGE"}
+
+log "Pushing $APP_NAME..."
+log
+
+DEIS_REMOTE=$(jq -r '.services.'"\"${APP_NAME}\""'."deis-remote"' $DEPLOYMENT_CONFIG)
+REPO_PATH=$(jq -r '.services.'"\"${APP_NAME}\""'."repo-path"' $DEPLOYMENT_CONFIG)
+
+cd $REPO_PATH
+git remote remove deis 2>/dev/null || true
+git remote add deis $DEIS_REMOTE
+
+BRANCH=dummy-$(git rev-parse --short HEAD)
+git branch -D $BRANCH 2>/dev/null || true
+git branch $BRANCH
+git push deis $BRANCH:master
+git branch -D $BRANCH
+
+log
