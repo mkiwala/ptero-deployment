@@ -1,5 +1,5 @@
 USAGE="${USAGE} LSF_PROFILE"
-LSF_PROFILE=${3?"$USAGE"}
+LSF_PROFILE=${2?"$USAGE"}
 
 if [ ! -f "$LSF_PROFILE" ]; then
     log "Must specify a lsf configuration to source"
