@@ -4,6 +4,6 @@ source ${PTERO_DIR}/deployment/libexec/workers-common
 source ${PTERO_DIR}/deployment/libexec/lsf-workers-common
 
 log "Launching a lsf-job-submitter..."
-celery worker -A ptero_lsf.implementation.celery_app --concurrency=$PTERO_LSF_WORKER_CONCURRENCY -Q lsftask &
+celery worker -A ptero_lsf.implementation.celery_app -n lsf-submitter.$(hostname).$(uuidgen) --concurrency=$PTERO_LSF_WORKER_CONCURRENCY -Q lsftask &
 PID=$!
 wait $PID

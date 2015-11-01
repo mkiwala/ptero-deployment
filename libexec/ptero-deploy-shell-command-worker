@@ -3,6 +3,6 @@
 source ${PTERO_DIR}/deployment/libexec/workers-common
 
 log "Launching a shell-command-worker..."
-celery worker -A ptero_shell_command.implementation.celery_app --concurrency $PTERO_SHELL_COMMAND_WORKER_CONCURRENCY -Q fork &
+celery worker -A ptero_shell_command.implementation.celery_app -n shell-command.$(hostname).$(uuidgen) --concurrency $PTERO_SHELL_COMMAND_WORKER_CONCURRENCY -Q fork &
 PID=$!
 wait $PID
